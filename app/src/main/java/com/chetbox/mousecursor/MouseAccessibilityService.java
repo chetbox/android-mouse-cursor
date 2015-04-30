@@ -136,15 +136,11 @@ public class MouseAccessibilityService extends AccessibilityService {
     private void click() {
         Log.d(TAG, String.format("Click [%d, %d]", cursorLayout.x, cursorLayout.y));
         AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
-        if (nodeInfo == null) break;
+        if (nodeInfo == null) return;
         AccessibilityNodeInfo nearestNodeToMouse = findSmallestNodeAtPoint(nodeInfo, cursorLayout.x, cursorLayout.y + 50);
         if (nearestNodeToMouse != null) {
             logNodeHierachy(nearestNodeToMouse, 0);
-            if (nearestNodeToMouse.isClickable()) {
-                nearestNodeToMouse.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            } else {
-                nearestNodeToMouse.performAction(AccessibilityNodeInfo.ACTION_SELECT);
-            }
+            nearestNodeToMouse.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }
         nodeInfo.recycle();
     }
